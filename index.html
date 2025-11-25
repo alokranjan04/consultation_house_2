@@ -77,9 +77,13 @@
       }
     </script>
     <style>
-      body {
-        transition: background-color 0.3s ease, color 0.3s ease;
+      /* Smooth transitions for theme switching */
+      body, div, nav, section, footer, button, a {
+        transition-property: background-color, border-color, color, fill, stroke;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 500ms;
       }
+      
       /* Custom Scrollbar */
       ::-webkit-scrollbar {
         width: 8px;
