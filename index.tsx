@@ -607,7 +607,7 @@ const ChatWidget = () => {
             className="mb-2 bg-navy-900 dark:bg-white text-white dark:text-navy-900 px-4 py-2 rounded-full text-xs font-bold shadow-xl cursor-pointer hover:scale-105 transition-all duration-300 border border-white/10 flex items-center gap-2 animate-fade-up" 
             onClick={() => setIsOpen(true)}
         >
-           <span>Sampark Karen</span>
+           <span>संपर्क करें </span>
         </div>
       )}
 
