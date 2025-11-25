@@ -142,7 +142,7 @@ const Navbar = ({ toggleTheme, theme }: { toggleTheme: () => void, theme: string
 
           <a
             href={`tel:${CONTACT_INFO.phone}`}
-            className="px-6 py-2.5 rounded-sm bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition-all flex items-center gap-2"
+            className="px-6 py-2.5 rounded-sm bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition-all flex items-center gap-2 active:scale-95"
           >
              <i className="fa-solid fa-phone"></i> 
              <span>{CONTACT_INFO.phone}</span>
@@ -238,10 +238,10 @@ const Hero = () => {
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start w-full animate-fade-up delay-300">
-                  <a href="#contact" className="px-8 py-4 rounded-sm bg-navy-900 dark:bg-emerald-600 text-white font-bold text-sm uppercase tracking-wider hover:bg-navy-800 dark:hover:bg-emerald-500 transition-all shadow-lg text-center w-full sm:w-auto">
+                  <a href="#contact" className="px-8 py-4 rounded-sm bg-navy-900 dark:bg-emerald-600 text-white font-bold text-sm uppercase tracking-wider hover:bg-navy-800 dark:hover:bg-emerald-500 transition-all shadow-lg text-center w-full sm:w-auto active:scale-95">
                     Book Consultation
                   </a>
-                  <a href="#services" className="px-8 py-4 rounded-sm border border-navy-200 dark:border-gray-700 bg-white dark:bg-navy-900 text-navy-900 dark:text-white font-bold text-sm uppercase tracking-wider hover:border-emerald-500 hover:text-emerald-600 transition-all text-center w-full sm:w-auto">
+                  <a href="#services" className="px-8 py-4 rounded-sm border border-navy-200 dark:border-gray-700 bg-white dark:bg-navy-900 text-navy-900 dark:text-white font-bold text-sm uppercase tracking-wider hover:border-emerald-500 hover:text-emerald-600 transition-all text-center w-full sm:w-auto active:scale-95">
                     Explore Services
                   </a>
                 </div>
@@ -258,8 +258,8 @@ const Hero = () => {
                              <p className="text-gray-400 text-xs uppercase tracking-widest">Compliance Guarantee</p>
                          </div>
                      </div>
-                     <div className="absolute -bottom-6 -left-6 bg-emerald-600 text-white p-6 shadow-xl max-w-[200px]">
-                         <p className="font-serif text-3xl font-bold mb-1">15+</p>
+                     <div className="absolute -bottom-6 -left-6 bg-emerald-600 text-white p-6 shadow-xl max-w-[200px] animate-float">
+                         <p className="font-serif text-3xl font-bold mb-1">40+</p>
                          <p className="text-xs uppercase tracking-widest opacity-90">Years of Experience</p>
                      </div>
                 </div>
@@ -285,7 +285,7 @@ const Services = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {SERVICES.map((service, index) => (
             <RevealOnScroll key={service.id} delay={index * 50}>
-              <div className="group bg-gray-50 dark:bg-navy-900 p-6 lg:p-8 rounded-sm hover:bg-white dark:hover:bg-navy-800 border border-gray-100 dark:border-navy-800 hover:border-emerald-500 dark:hover:border-emerald-500 shadow-sm hover:shadow-elegant transition-all duration-300 h-full flex flex-col relative">
+              <div className="group bg-gray-50 dark:bg-navy-900 p-6 lg:p-8 rounded-sm hover:bg-white dark:hover:bg-navy-800 border border-gray-100 dark:border-navy-800 hover:border-emerald-500 dark:hover:border-emerald-500 shadow-sm hover:shadow-elegant transition-all duration-300 h-full flex flex-col relative hover:-translate-y-1">
                 
                 <div className="absolute top-0 left-0 w-full h-1 bg-emerald-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
 
@@ -332,7 +332,7 @@ const About = () => {
             <h2 className="text-3xl lg:text-4xl font-serif font-bold mb-6">A Legacy of Trust</h2>
             
             <p className="text-gray-300 mb-6 leading-relaxed font-sans text-lg">
-                Since 2008, Consultation House has stood as a pillar of reliability for industries across Noida. We bridge the gap between complex government regulations and smooth business operations.
+                Since 1984, Consultation House has stood as a pillar of reliability for industries across Noida. We bridge the gap between complex government regulations and smooth business operations.
             </p>
             
             <div className="grid grid-cols-2 gap-8 mt-10">
@@ -461,7 +461,7 @@ const Contact = () => {
                               className={`w-full font-bold uppercase tracking-widest text-xs py-4 px-10 rounded-sm transition-all flex items-center justify-center gap-2 
                                 ${formState === 'success' 
                                   ? 'bg-emerald-600 text-white cursor-default' 
-                                  : 'bg-navy-900 text-white hover:bg-navy-800'}`}
+                                  : 'bg-navy-900 text-white hover:bg-navy-800 active:scale-95'}`}
                             >
                                 {formState === 'idle' && <span>Send Message</span>}
                                 {formState === 'submitting' && (
