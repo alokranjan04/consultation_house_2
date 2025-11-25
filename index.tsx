@@ -221,7 +221,7 @@ const Hero = () => {
             <div className="w-full lg:w-1/2 text-center lg:text-left">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-6 animate-fade-up transition-colors duration-500">
                     <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
-                    Serving Noida & Ghaziabad
+                   Serving  PAN India
                 </div>
                 
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-navy-900 dark:text-white leading-[1.15] mb-6 animate-fade-up delay-100 transition-colors duration-500">
@@ -240,6 +240,8 @@ const Hero = () => {
                 
                 <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0 animate-fade-up delay-300 transition-colors duration-500">
                    Navigating the complex landscape of industrial regulations so you can focus on growth. From licensing to daily compliance, we have you covered.
+
+                   <br/> <br/> Serving more than 150 industries across PAN India  
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start w-full animate-fade-up delay-300">
@@ -264,7 +266,7 @@ const Hero = () => {
                          </div>
                      </div>
                      <div className="absolute -bottom-6 -left-6 bg-emerald-600 text-white p-6 shadow-xl max-w-[200px] animate-float transition-all duration-500">
-                         <p className="font-serif text-3xl font-bold mb-1">40+</p>
+                         <p className="font-serif text-3xl font-bold mb-1">45+</p>
                          <p className="text-xs uppercase tracking-widest opacity-90">Years of Experience</p>
                      </div>
                 </div>
