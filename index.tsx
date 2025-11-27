@@ -400,8 +400,9 @@ const Contact = () => {
         message: formData.get('message')
     };
 
+    
     try {
-        await fetch('https://primary-production-9d8b.up.railway.app/webhook-test/contact-form', {
+        await fetch('https://primary-production-9d8b.up.railway.app/webhook/contact-form', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -409,7 +410,7 @@ const Contact = () => {
         setFormState('success');
         e.currentTarget.reset();
     } catch (err) {
-        console.error(err);
+        console.error(err); 
         setFormState('success'); // Demo fallback
     }
 
