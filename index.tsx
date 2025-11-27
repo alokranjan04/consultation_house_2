@@ -400,7 +400,6 @@ const Contact = () => {
         message: formData.get('message')
     };
 
-    
     try {
         await fetch('https://primary-production-9d8b.up.railway.app/webhook/contact-form', {
             method: 'POST',
@@ -410,7 +409,7 @@ const Contact = () => {
         setFormState('success');
         e.currentTarget.reset();
     } catch (err) {
-        console.error(err); 
+        console.error(err);
         setFormState('success'); // Demo fallback
     }
 
@@ -556,33 +555,24 @@ const Footer = () => {
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { text: "नमस्ते! I am the assistant for Consultation House. How may I help you?", sender: 'bot' }
-  ]);
+  const [messages, setMessages] = useState<{text: string, sender: string}[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [chatSession, setChatSession] = useState<Chat | null>(null);
-  const [hasInitialized, setHasInitialized] = useState(false);
 
+  // Chatbot Flow State
+  const [step, setStep] = useState<'name' | 'phone' | 'query' | 'done'>('name');
+  const [leadData, setLeadData] = useState({ name: '', phone: '', query: '' });
+
+  // Initialize Greeting
   useEffect(() => {
-    if (!hasInitialized && isOpen) {
-        try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-            const chat = ai.chats.create({
-                model: 'gemini-2.5-flash',
-                config: {
-                    systemInstruction: "You are a professional industrial consultant for 'Consultation House'. Be brief, formal, and helpful. Use a mix of Hindi and English.",
-                }
-            });
-            setChatSession(chat);
-            setHasInitialized(true);
-        } catch (error) {
-            console.error("Error initializing chat:", error);
-        }
+    if (isOpen && messages.length === 0) {
+        setMessages([{ text: "नमस्ते! Welcome to Consultation House. May I please know your name?", sender: 'bot' }]);
+        setStep('name');
     }
-  }, [isOpen, hasInitialized]);
+  }, [isOpen]);
 
+  // Auto-scroll to bottom
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -593,33 +583,74 @@ const ChatWidget = () => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    const userMsg = input;
-    setMessages(prev => [...prev, { text: userMsg, sender: 'user' }]);
+    const userText = input.trim();
+    setMessages(prev => [...prev, { text: userText, sender: 'user' }]);
     setInput("");
     setIsTyping(true);
 
-    try {
-        let responseText = "System busy. Please call 9811155576.";
-        
-        if (chatSession) {
-             const result = await chatSession.sendMessage({ message: userMsg });
-             responseText = result.text ?? "No response";
-        } else {
-             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-             const result = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
-                contents: userMsg 
-             });
-             if (result.text) responseText = result.text;
+    // Simulate thinking delay
+    setTimeout(async () => {
+        let botResponse = "";
+        let nextStep = step;
+
+        if (step === 'name') {
+            setLeadData(prev => ({ ...prev, name: userText }));
+            botResponse = `Thank you, ${userText}. Please enter your 10-digit Phone Number.`;
+            nextStep = 'phone';
+        } 
+        else if (step === 'phone') {
+            // Validate Phone Number (10 digits)
+            if (/^\d{10}$/.test(userText)) {
+                setLeadData(prev => ({ ...prev, phone: userText }));
+                botResponse = "Great. What can we help you with today?";
+                nextStep = 'query';
+            } else {
+                botResponse = "Please enter a valid 10-digit phone number (e.g., 9811155576).";
+                nextStep = 'phone'; // Stay on same step
+            }
+        } 
+        else if (step === 'query') {
+            setLeadData(prev => ({ ...prev, query: userText }));
+            
+            // Prepare Data
+            const finalData = { 
+                name: leadData.name, 
+                phone: leadData.phone, 
+                message: userText,
+                subject: 'Chatbot Inquiry'
+            };
+            
+            // Submit to Webhook
+            try {
+                await fetch('https://primary-production-9d8b.up.railway.app/webhook/contact-form', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(finalData)
+                });
+                botResponse = "Thank you! Your details have been submitted. Our team will contact you shortly.";
+            } catch (err) {
+                botResponse = "Thank you. We have received your query and will call you soon.";
+            }
+            nextStep = 'done';
+        } 
+        else {
+             botResponse = "We have received your details. Feel free to call us at 9811155576.";
         }
-        
-        setMessages(prev => [...prev, { text: responseText, sender: 'bot' }]);
-    } catch (error) {
-        setMessages(prev => [...prev, { text: "Network error. Call 9811155576.", sender: 'bot' }]);
-    } finally {
+
+        setStep(nextStep);
         setIsTyping(false);
-    }
+        setMessages(prev => [...prev, { text: botResponse, sender: 'bot' }]);
+
+    }, 600);
   };
+
+  // Dynamic placeholder text
+  const getPlaceholder = () => {
+    if (step === 'name') return "Enter your full name...";
+    if (step === 'phone') return "Enter 10-digit phone number...";
+    if (step === 'done') return "Chat ended.";
+    return "Type your message...";
+  }
 
   return (
     <div className="fixed bottom-4 right-4 z-[70] flex flex-col items-end font-sans">
@@ -685,12 +716,13 @@ const ChatWidget = () => {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask us anything..."
-                className="w-full bg-gray-50 dark:bg-navy-950 rounded-sm px-4 py-2 text-sm focus:outline-none focus:border-emerald-500 border border-transparent focus:border text-navy-900 dark:text-white transition-all duration-300"
+                placeholder={getPlaceholder()}
+                disabled={step === 'done'}
+                className="w-full bg-gray-50 dark:bg-navy-950 rounded-sm px-4 py-2 text-sm focus:outline-none focus:border-emerald-500 border border-transparent focus:border text-navy-900 dark:text-white transition-all duration-300 disabled:opacity-50"
               />
               <button 
                 type="submit"
-                disabled={!input.trim() || isTyping}
+                disabled={!input.trim() || isTyping || step === 'done'}
                 className="w-10 h-9 rounded-sm bg-navy-900 dark:bg-emerald-600 text-white flex items-center justify-center hover:opacity-90 disabled:opacity-50 transition-all duration-300"
               >
                 <i className="fa-solid fa-paper-plane text-xs"></i>
