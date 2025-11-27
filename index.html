@@ -1,16 +1,16 @@
 
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth light">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Consultation House | Industrial & HR Experts</title>
-    <meta name="description" content="Expert Industrial & HR Consultancy Services including Factories Act, ESI & PF, Pollution Compliance, and more. Located in Noida." />
+    <meta name="description" content="Expert Industrial & HR Consultancy Services including Factories Act, ESI & PF, Pollution Compliance in Noida & Ghaziabad." />
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Merriweather (Serif) & Lato (Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
     
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -27,49 +27,37 @@
               serif: ['Merriweather', 'serif'],
             },
             colors: {
-              emerald: {
-                50: '#ecfdf5',
-                100: '#d1fae5',
-                500: '#10b981',
-                600: '#059669', // Primary Green
-                700: '#047857',
-                800: '#065f46',
-                900: '#064e3b',
-              },
+              // Map Navy classes to Slate palette for deep blue/grey look
               navy: {
                 50: '#f8fafc',
+                100: '#f1f5f9',
+                200: '#e2e8f0',
+                300: '#cbd5e1',
+                400: '#94a3b8',
+                500: '#64748b',
+                600: '#475569',
+                700: '#334155',
                 800: '#1e293b',
-                900: '#0f172a', // Primary Dark
+                900: '#0f172a',
                 950: '#020617',
-              },
-              gold: {
-                400: '#fbbf24',
-                500: '#f59e0b',
-                600: '#d97706', // Accent Gold
               }
             },
             boxShadow: {
-              'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-              'elegant': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-              'glow': '0 0 15px rgba(5, 150, 105, 0.3)',
+              'elegant': '0 10px 40px -10px rgba(0,0,0,0.1)',
+              'glow': '0 0 20px rgba(5, 150, 105, 0.5)'
             },
             animation: {
               'fade-up': 'fadeUp 0.8s ease-out forwards',
-              'slide-in': 'slideIn 0.5s ease-out forwards',
-              'float': 'float 6s ease-in-out infinite',
+              'float': 'float 3s ease-in-out infinite',
             },
             keyframes: {
               fadeUp: {
                 '0%': { opacity: '0', transform: 'translateY(20px)' },
                 '100%': { opacity: '1', transform: 'translateY(0)' },
               },
-              slideIn: {
-                '0%': { opacity: '0', transform: 'translateX(-20px)' },
-                '100%': { opacity: '1', transform: 'translateX(0)' },
-              },
               float: {
                 '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-10px)' },
+                '50%': { transform: 'translateY(-5px)' },
               }
             }
           }
@@ -77,11 +65,9 @@
       }
     </script>
     <style>
-      /* Smooth transitions for theme switching */
-      body, div, nav, section, footer, button, a {
-        transition-property: background-color, border-color, color, fill, stroke;
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        transition-duration: 500ms;
+      /* Smooth transitions for hover states */
+      body, div, nav, section, footer, button, a, span, input, textarea {
+        transition: all 0.3s ease-in-out;
       }
       
       /* Custom Scrollbar */
@@ -89,25 +75,15 @@
         width: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #f1f1f1;
+        background: #f1f5f9;
       }
       ::-webkit-scrollbar-thumb {
-        background: #cbd5e1; 
+        background: #0f172a; 
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8; 
+        background: #059669;
       }
-      .dark ::-webkit-scrollbar-track {
-        background: #1e293b;
-      }
-      .dark ::-webkit-scrollbar-thumb {
-        background: #475569;
-      }
-      
-      .delay-100 { animation-delay: 100ms; }
-      .delay-200 { animation-delay: 200ms; }
-      .delay-300 { animation-delay: 300ms; }
     </style>
   <script type="importmap">
 {
@@ -121,7 +97,7 @@
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
-  <body class="bg-gray-50 text-navy-900 dark:bg-navy-950 dark:text-gray-100 antialiased selection:bg-emerald-500 selection:text-white">
+  <body class="bg-white text-navy-900 antialiased selection:bg-emerald-600 selection:text-white">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

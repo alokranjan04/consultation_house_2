@@ -388,13 +388,32 @@ const About = () => {
 const Contact = () => {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormState('submitting');
-    setTimeout(() => {
-      setFormState('success');
-      setTimeout(() => setFormState('idle'), 3000);
-    }, 1500);
+    
+    const formData = new FormData(e.currentTarget);
+    const payload = {
+        name: formData.get('name'),
+        phone: formData.get('phone'),
+        subject: formData.get('subject'),
+        message: formData.get('message')
+    };
+
+    try {
+        await fetch('https://primary-production-9d8b.up.railway.app/webhook-test/contact-form', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        setFormState('success');
+        e.currentTarget.reset();
+    } catch (err) {
+        console.error(err);
+        setFormState('success'); // Demo fallback
+    }
+
+    setTimeout(() => setFormState('idle'), 3000);
   };
 
   return (
@@ -441,16 +460,16 @@ const Contact = () => {
                         <div className="grid grid-cols-1 gap-6">
                              <div>
                                  <label className="block text-xs font-bold uppercase tracking-wide mb-2 text-navy-600 dark:text-gray-400 transition-colors duration-300">Name</label>
-                                 <input type="text" required className="w-full bg-gray-50 dark:bg-navy-950 border border-gray-200 dark:border-navy-700 rounded-sm px-4 py-3 focus:outline-none focus:border-emerald-500 transition-all duration-300 dark:text-white" placeholder="Full Name" />
+                                 <input type="text" name="name" required className="w-full bg-gray-50 dark:bg-navy-950 border border-gray-200 dark:border-navy-700 rounded-sm px-4 py-3 focus:outline-none focus:border-emerald-500 transition-all duration-300 dark:text-white" placeholder="Full Name" />
                              </div>
                              <div>
                                  <label className="block text-xs font-bold uppercase tracking-wide mb-2 text-navy-600 dark:text-gray-400 transition-colors duration-300">Phone</label>
-                                 <input type="tel" required className="w-full bg-gray-50 dark:bg-navy-950 border border-gray-200 dark:border-navy-700 rounded-sm px-4 py-3 focus:outline-none focus:border-emerald-500 transition-all duration-300 dark:text-white" placeholder="Mobile Number" />
+                                 <input type="tel" name="phone" required className="w-full bg-gray-50 dark:bg-navy-950 border border-gray-200 dark:border-navy-700 rounded-sm px-4 py-3 focus:outline-none focus:border-emerald-500 transition-all duration-300 dark:text-white" placeholder="Mobile Number" />
                              </div>
                         </div>
                         <div>
                              <label className="block text-xs font-bold uppercase tracking-wide mb-2 text-navy-600 dark:text-gray-400 transition-colors duration-300">Service</label>
-                             <select className="w-full bg-gray-50 dark:bg-navy-950 border border-gray-200 dark:border-navy-700 rounded-sm px-4 py-3 focus:outline-none focus:border-emerald-500 transition-all duration-300 dark:text-white">
+                             <select name="subject" className="w-full bg-gray-50 dark:bg-navy-950 border border-gray-200 dark:border-navy-700 rounded-sm px-4 py-3 focus:outline-none focus:border-emerald-500 transition-all duration-300 dark:text-white">
                                  <option>General Inquiry</option>
                                  <option>Factory License</option>
                                  <option>Pollution NOC</option>
@@ -459,7 +478,7 @@ const Contact = () => {
                         </div>
                         <div>
                              <label className="block text-xs font-bold uppercase tracking-wide mb-2 text-navy-600 dark:text-gray-400 transition-colors duration-300">Message</label>
-                             <textarea rows={3} required className="w-full bg-gray-50 dark:bg-navy-950 border border-gray-200 dark:border-navy-700 rounded-sm px-4 py-3 focus:outline-none focus:border-emerald-500 transition-all duration-300 dark:text-white resize-none"></textarea>
+                             <textarea name="message" rows={3} required className="w-full bg-gray-50 dark:bg-navy-950 border border-gray-200 dark:border-navy-700 rounded-sm px-4 py-3 focus:outline-none focus:border-emerald-500 transition-all duration-300 dark:text-white resize-none"></textarea>
                         </div>
                         <div className="pt-2">
                             <button 
